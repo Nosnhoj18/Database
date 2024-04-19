@@ -1,9 +1,14 @@
 
+import java.awt.Image;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -21,7 +26,9 @@ public class Main_Window extends javax.swing.JFrame {
      */
     public Main_Window() {
         initComponents();
+        getConnection();
     }
+     String ImgPath = null;
     public Connection getConnection()
            {
                Connection con = null;
@@ -35,7 +42,22 @@ public class Main_Window extends javax.swing.JFrame {
 
                    return null;
            }
+          }
+          public ImageIcon ResizeImage(String imagePath , byte[] pic)
+        {
+           ImageIcon myImage = null;
+           if(imagePath !=null)
+           {
+               myImage = new ImageIcon(imagePath);
+           }else{
+               
+               myImage = new ImageIcon(pic);
            }
+           Image img = myImage.getImage();
+           Image img2= img.getScaledInstance(lbl_image.getWidth(), lbl_image.getHeight(), Image.SCALE_SMOOTH);
+           ImageIcon image = new ImageIcon(img2);
+           return image; 
+        }
     
 
     /**
@@ -57,10 +79,10 @@ public class Main_Window extends javax.swing.JFrame {
         jTextField3 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jLabel6 = new javax.swing.JLabel();
+        lbl_image = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        Btn_Choose_Image = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
@@ -96,8 +118,8 @@ public class Main_Window extends javax.swing.JFrame {
 
         jDateChooser1.setDateFormatString("YYYY-MM-dd");
 
-        jLabel6.setBackground(new java.awt.Color(204, 255, 255));
-        jLabel6.setOpaque(true);
+        lbl_image.setBackground(new java.awt.Color(204, 255, 255));
+        lbl_image.setOpaque(true);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -109,8 +131,13 @@ public class Main_Window extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Choose image");
+        Btn_Choose_Image.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Btn_Choose_Image.setText("Choose image");
+        Btn_Choose_Image.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Btn_Choose_ImageActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         jButton2.setText("Update");
@@ -173,10 +200,10 @@ public class Main_Window extends javax.swing.JFrame {
                                         .addComponent(jLabel4))
                                     .addGap(18, 18, 18)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(Btn_Choose_Image, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                            .addComponent(lbl_image, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -214,12 +241,12 @@ public class Main_Window extends javax.swing.JFrame {
                         .addGap(40, 40, 40)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Btn_Choose_Image, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -252,6 +279,27 @@ public class Main_Window extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Btn_Choose_ImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btn_Choose_ImageActionPerformed
+         JFileChooser file = new JFileChooser();
+        file.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images", "jpg", "png");
+        file.addChoosableFileFilter(filter);
+        int result = file.showSaveDialog(null);
+        if(result == JFileChooser.APPROVE_OPTION)
+        {
+            File selectedFile = file.getSelectedFile();
+            String path = selectedFile.getAbsolutePath();
+            lbl_image.setIcon(ResizeImage(path, null));
+            ImgPath = path;
+        }
+        else{
+            System.out.println("No File Selected");
+        }
+        // TODO add your handling code here:
+           
+    }//GEN-LAST:event_Btn_Choose_ImageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -289,7 +337,7 @@ public class Main_Window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton Btn_Choose_Image;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
@@ -303,12 +351,12 @@ public class Main_Window extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField6;
+    private javax.swing.JLabel lbl_image;
     // End of variables declaration//GEN-END:variables
 }
