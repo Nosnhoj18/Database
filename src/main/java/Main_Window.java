@@ -2,6 +2,7 @@
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,7 +40,7 @@ public class Main_Window extends javax.swing.JFrame {
                Connection con = null;
 
            try {
-               con = DriverManager.getConnection("jdbc:mysql://localhost/prd_table","root","");
+               con = DriverManager.getConnection("jdbc:mysql://localhost/product_db","root","");
 
                    return con;
            } catch (SQLException ex) {
@@ -167,6 +168,11 @@ public class Main_Window extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         jButton2.setText("Update");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         Btn_Insert.setFont(new java.awt.Font("Segoe UI Black", 1, 14)); // NOI18N
         Btn_Insert.setText("Insert");
@@ -373,6 +379,11 @@ public class Main_Window extends javax.swing.JFrame {
 
            // TODO add your handling code here:
     }//GEN-LAST:event_Btn_InsertActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+           
+                // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
